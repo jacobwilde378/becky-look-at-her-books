@@ -29,7 +29,7 @@ const resolvers = {
         }
     },
 
-    Mutations: {
+    Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args)
             const token = signToken(user)
@@ -71,7 +71,7 @@ const resolvers = {
 
         },
 
-        deleteBook: async(parent, {bookId}, context) => {
+        removeBook: async(parent, {bookId}, context) => {
             if(context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     {_id: user.i_id},
