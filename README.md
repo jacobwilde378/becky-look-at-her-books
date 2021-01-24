@@ -3,7 +3,7 @@
 This application will allow a user to create an account.  Once a user has an account they are able to search for books using googles book api.  A user may save a book to their profile.  A user can also remove a book from their profile.
 
 ## Languages / Packages
-* node.js
+* node.js                * jwt-decode
 * HTML
 * CSS
 * React
@@ -17,7 +17,7 @@ This application will allow a user to create an account.  Once a user has an acc
 * apollo-boost
 * graphql
 * graphql-tag
-* jwt-decode
+
 
 ## Installation
 Clone the repo to the desired directory and then run npm i to install all dependicies.  Then run 'npm start' and the application will start up both servers.
