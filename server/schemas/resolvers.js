@@ -1,6 +1,6 @@
-const { User, Book} = require('../models')
-const { AutheticationError, AuthenticationError } = require('apollo-server-express')
-const {signToken} = require('../utils/auth')
+const { User, Book } = require('../models')
+const { AuthenticationError } = require('apollo-server-express')
+const { signToken } = require('../utils/auth')
 
 const resolvers = {
     Query: {
@@ -10,15 +10,15 @@ const resolvers = {
                 .populate('savedBooks')
         },
 
-        user: async (parent, {username}) => {
-            return User.findOne({username})
+        user: async (parent, { username }) => {
+            return User.findOne({ username })
                 .select('-__V -password')
                 .populate('savedBooks')
         },
 
         me: async (parent, args, context) => {
-            if(context.user) {
-                const userData = await User.findOne({ _id: context.user._id})
+            if (context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
                     .populate('savedBooks')
 
@@ -34,13 +34,13 @@ const resolvers = {
             const user = await User.create(args)
             const token = signToken(user)
 
-            return {token, user}
+            return { token, user }
         },
 
-        login: async (parent, {email, password}) => {
-            const user = await User.findOne({email})
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email })
 
-            if(!user) {
+            if (!user) {
                 throw new AuthenticationError('Your Email & Password combination is incorrect!')
             }
 
@@ -51,17 +51,17 @@ const resolvers = {
             }
 
             const token = signToken(user)
-            
-            return {token, user}
+
+            return { token, user }
         },
 
-        saveBook: async (parent, {bookId}, context) => {
+        saveBook: async (parent, { bookData }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    {_id: context.user._id},
-                    {$addToSet: {savedBooks: bookId}},
-                    {new: true}
-                ).populate('savedBooks')
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: { bookData } } },
+                    { new: true }
+                )
 
                 return updatedUser
 
@@ -71,12 +71,12 @@ const resolvers = {
 
         },
 
-        removeBook: async(parent, {bookId}, context) => {
-            if(context.user) {
+        removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    {_id: user.i_id},
-                    {$pull: {savedBooks: {bookId: bookId}}},
-                    {new: true}
+                    { _id: user.i_id },
+                    { $pull: { savedBooks: { bookId: bookId } } },
+                    { new: true }
                 )
 
                 return updateUser
