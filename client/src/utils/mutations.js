@@ -33,7 +33,6 @@ export const SAVE_BOOK = gql`
             _id
             username
             email
-            bookCount
             savedBooks {
                 authors
                 description
@@ -48,14 +47,14 @@ export const SAVE_BOOK = gql`
 `
 
 export const REMOVE_BOOK = gql`
-    mutation removeBook($id: ID!) {
-        savedBook(bookId: $ id) {
+    mutation removeBook($bookId: ID!) {
+        removeBook(bookId: $bookId) {
             _id
             username
             email
             bookCount
             savedBooks {
-                Authors
+                authors
                 description
                 bookId
                 image

@@ -56,10 +56,11 @@ const resolvers = {
         },
 
         saveBook: async (parent, { bookData }, context) => {
+            console.log(bookData)
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: { bookData } } },
+                    { $addToSet: { savedBooks:  bookData  } },
                     { new: true }
                 )
 
@@ -72,14 +73,15 @@ const resolvers = {
         },
 
         removeBook: async (parent, { bookId }, context) => {
+            console.log(bookId)
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: user.i_id },
-                    { $pull: { savedBooks: { bookId: bookId } } },
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId } } },
                     { new: true }
                 )
 
-                return updateUser
+                return updatedUser
             }
 
             throw new AuthenticationError('You must be logged in to delete a book from your profile!')

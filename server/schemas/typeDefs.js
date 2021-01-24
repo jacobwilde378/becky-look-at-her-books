@@ -3,8 +3,8 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
 
 type User {
-    _id: ID!
-    username: String!
+    _id: ID
+    username: String
     email: String
     savedBooks: [Book]
     bookCount: Int
@@ -13,21 +13,21 @@ type User {
 type Book {
     authors: [String]
     description: String
-    bookId: ID!
+    bookId: ID
     image: String
     link: String
-    title: String!
+    title: String
 }
 
 
 
 input BookInput {
     authors: [String]
-    description: String!
-    bookId: String!
+    description: String
+    bookId: String
     image: String
     link: String
-    title: String!
+    title: String
 }
 
 type Auth {
